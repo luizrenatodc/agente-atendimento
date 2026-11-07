@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel do agente</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<header class="barra">
+  <div class="marca">
+    <span class="logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 2a9 9 0 0 0-9 9v5a3 3 0 0 0 3 3h1v-7H5v-1a7 7 0 0 1 14 0v1h-2v7h1a3 3 0 0 1-3 3h-3v2h3a5 5 0 0 0 5-5v-6a9 9 0 0 0-9-9z"/></svg>
+    </span>
+    <div><strong id="empresa-topo">Painel do agente</strong><small id="provedor">carregando…</small></div>
+  </div>
+  <nav class="abas" role="tablist" aria-label="Seções do painel">
+    <button role="tab" data-aba="conversas" aria-selected="true">Conversas <span class="contador" id="cont-fila" hidden></span></button>
+    <button role="tab" data-aba="base" aria-selected="false">Base de conhecimento</button>
+    <button role="tab" data-aba="ajustes" aria-selected="false">Tom e horário</button>
+    <button role="tab" data-aba="metricas" aria-selected="false">Métricas</button>
+  </nav>
+  <div class="salvar" id="salvar" hidden>
+    <span>Alterações não salvas</span>
+    <button type="button" id="btn-descartar" class="sec">Descartar</button>
+    <button type="button" id="btn-salvar">Salvar</button>
+  </div>
+</header>
+
+<main>
+  <section id="aba-conversas" class="aba" role="tabpanel">
+    <div class="duas">
+      <aside class="lista-box">
+        <div class="filtros" id="filtros" role="group" aria-label="Filtrar conversas">
+          <button data-f="todas" aria-pressed="true">Todas</button>
+          <button data-f="fila" aria-pressed="false">Aguardando</button>
+          <button data-f="humano" aria-pressed="false">Com pessoa</button>
+          <button data-f="agente" aria-pressed="false">Agente</button>
+        </div>
+        <ul class="lista" id="lista"></ul>
+      </aside>
+      <article class="detalhe" id="detalhe"><p class="vazio">Selecione uma conversa.</p></article>
+    </div>
+  </section>
+
+  <section id="aba-base" class="aba" role="tabpanel" hidden>
+    <div class="duas base">
+      <div class="coluna">
+        <div class="cab-secao"><h2>Perguntas frequentes</h2><button type="button" id="add-faq" class="sec">+ Nova pergunta</button></div>
+        <p class="dica">O agente acha a resposta pela pergunta e pelas palavras-chave. Quanto mais jeitos de perguntar você listar, melhor.</p>
+        <div id="faq"></div>
+        <div class="cab-secao"><h2>Catálogo</h2><button type="button" id="add-item" class="sec">+ Novo item</button></div>
+        <div id="catalogo"></div>
+      </div>
+      <aside class="coluna lateral">
+        <div class="cartao">
+          <h2>Testar o agente</h2>
+          <form id="form-teste"><label class="sr" for="teste">Pergunta de teste</label><input id="teste" placeholder="Digite como um cliente…" autocomplete="off"><button>Perguntar</button></form>
+          <div id="resultado-teste" aria-live="polite"></div>
+        </div>
+        <div class="cartao">
+          <h2>Perguntas sem resposta</h2>
+          <p class="dica">O que clientes perguntaram e o agente não soube responder. Vire isso em FAQ.</p>
+          <ul class="lacunas" id="lacunas"></ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="aba-ajustes" class="aba" role="tabpanel" hidden>
+    <div class="grade">
+      <div class="cartao">
+        <h2>Empresa</h2>
+        <label>Nome<input data-c="empresa.nome"></label>
+        <label>Segmento<input data-c="empresa.segmento"></label>
+        <label>Telefone<input data-c="empresa.telefone"></label>
+        <label>Endereço<input data-c="empresa.endereco"></label>
+      </div>
+      <div class="cartao">
+        <h2>Tom de voz</h2>
+        <div class="tons" id="tons"></div>
+        <label class="check"><input type="checkbox" data-c="tom.emoji"> Usar emojis</label>
+        <label>Assinatura da equipe<input data-c="tom.assinatura"></label>
+        <p class="dica">Prévia</p>
+        <div class="previa" id="previa-tom"></div>
+      </div>
+      <div class="cartao largo">
+        <h2>Horário de atendimento humano</h2>
+        <p class="dica">Fora do horário o agente continua respondendo, mas avisa quando a equipe volta. Fuso: <span id="fuso"></span></p>
+        <div id="semana" class="semana"></div>
+      </div>
+      <div class="cartao">
+        <h2>Mensagens fixas</h2>
+        <p class="dica">Variáveis: {nome}, {empresa}, {proximaAbertura}</p>
+        <label>Saudação<textarea rows="2" data-c="mensagens.saudacao"></textarea></label>
+        <label>Fora do horário<textarea rows="2" data-c="mensagens.foraDoHorario"></textarea></label>
+        <label>Chamando uma pessoa<textarea rows="2" data-c="mensagens.transbordo"></textarea></label>
+        <label>Não entendi<textarea rows="2" data-c="mensagens.naoEntendi"></textarea></label>
+        <label>Despedida<textarea rows="2" data-c="mensagens.despedida"></textarea></label>
+      </div>
+      <div class="cartao">
+        <h2>Quando chamar uma pessoa</h2>
+        <label>Cliente pede atendente (separe por vírgula)<textarea rows="2" data-lista="transbordo.pedidoHumano"></textarea></label>
+        <label>Termos sensíveis (reclamação, jurídico, cancelamento)<textarea rows="3" data-lista="transbordo.palavrasSensiveis"></textarea></label>
+        <label>Falhas seguidas antes de chamar<input type="number" min="1" max="5" data-c="transbordo.maxFalhas" data-num></label>
+        <label>Confiança mínima para responder sozinho: <b id="valor-conf"></b>
+          <input type="range" min="0.2" max="0.8" step="0.01" data-c="transbordo.confiancaMinima" data-num></label>
+        <p class="dica">Mais alta: o agente erra menos e chama pessoas com mais frequência.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="aba-metricas" class="aba" role="tabpanel" hidden>
+    <div class="kpis" id="kpis"></div>
+    <div class="grade">
+      <div class="cartao"><h2>Conversas nos últimos 7 dias</h2><div id="grafico-dias"></div></div>
+      <div class="cartao"><h2>Assuntos mais perguntados</h2><div id="topicos"></div></div>
+      <div class="cartao"><h2>Por que chamou uma pessoa</h2><div id="motivos"></div></div>
+      <div class="cartao"><h2>Perguntas sem resposta</h2><p class="dica">Candidatas a virar FAQ na aba Base de conhecimento.</p><div id="lacunas-m"></div></div>
+    </div>
+  </section>
+</main>
+<div class="aviso" id="aviso" role="status" aria-live="polite" hidden></div>
+<script src="admin.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Conversa com o agente</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="cliente.css">
+</head>
+<body>
+<main class="palco">
+  <aside class="legenda" aria-label="Sobre esta demonstração">
+    <p class="selo">Demonstração</p>
+    <h1>Agente de atendimento</h1>
+    <p>Converse como se fosse um cliente. As respostas saem da base de conhecimento cadastrada no <a href="/admin">painel da equipe</a>, e o agente chama uma pessoa quando precisa.</p>
+    <ul>
+      <li>Experimente: <em>“quanto custa a orquídea?”</em></li>
+      <li><em>“que horas vocês abrem no sábado?”</em></li>
+      <li><em>“quero falar com um atendente”</em></li>
+    </ul>
+  </aside>
+
+  <section class="celular" aria-label="Conversa de WhatsApp">
+    <div class="status" aria-hidden="true"><span id="relogio">09:41</span><span class="status-icones"><i></i><i></i><i></i></span></div>
+    <header class="topo">
+      <span class="voltar" aria-hidden="true">‹</span>
+      <span class="avatar" id="avatar" aria-hidden="true">
+        <svg viewBox="0 0 40 40" width="40" height="40"><circle cx="20" cy="20" r="20" fill="#f6d9e3"/><g transform="translate(20 21)"><ellipse rx="5" ry="9" cy="-8" fill="#e8588a"/><ellipse rx="5" ry="9" cy="-8" fill="#e8588a" transform="rotate(72)"/><ellipse rx="5" ry="9" cy="-8" fill="#e8588a" transform="rotate(144)"/><ellipse rx="5" ry="9" cy="-8" fill="#e8588a" transform="rotate(216)"/><ellipse rx="5" ry="9" cy="-8" fill="#e8588a" transform="rotate(288)"/><circle r="4.5" fill="#f7c948"/></g></svg>
+      </span>
+      <div class="quem">
+        <strong id="nome-empresa">Atendimento</strong>
+        <small id="subtitulo" aria-live="polite">assistente virtual</small>
+      </div>
+    </header>
+
+    <div class="conversa" id="conversa" role="log" aria-live="polite" aria-label="Mensagens"></div>
+
+    <div class="atalhos" id="atalhos" aria-label="Sugestões">
+      <button type="button">Horário</button>
+      <button type="button">Ver preços</button>
+      <button type="button">Entregam hoje?</button>
+      <button type="button">Falar com atendente</button>
+    </div>
+
+    <form class="entrada" id="form" autocomplete="off">
+      <label class="sr" for="texto">Digite uma mensagem</label>
+      <input id="texto" name="texto" type="text" placeholder="Mensagem" maxlength="1000">
+      <button type="submit" aria-label="Enviar">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M3 20.5v-6.8l9-1.7-9-1.7V3.5L22 12z"/></svg>
+      </button>
+    </form>
+  </section>
+</main>
+<script src="cliente.js" type="module"></script>
+</body>
+</html>

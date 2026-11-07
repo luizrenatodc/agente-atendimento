@@ -1,0 +1,65 @@
+{
+  "empresa": {
+    "nome": "Clínica Sorriso Claro",
+    "segmento": "clínica odontológica",
+    "telefone": "(11) 3000-1234",
+    "endereco": "Av. das Palmeiras, 800, sala 12"
+  },
+  "tom": { "estilo": "formal", "emoji": false, "assinatura": "Recepção Sorriso Claro" },
+  "horario": {
+    "fuso": "America/Sao_Paulo",
+    "semana": {
+      "dom": null,
+      "seg": ["08:00", "19:00"],
+      "ter": ["08:00", "19:00"],
+      "qua": ["08:00", "19:00"],
+      "qui": ["08:00", "19:00"],
+      "sex": ["08:00", "17:00"],
+      "sab": null
+    }
+  },
+  "mensagens": {
+    "saudacao": "Olá, {nome}. Você está falando com o atendimento virtual da {empresa}. Em que posso ajudar?",
+    "foraDoHorario": "A recepção está fechada no momento e retorna {proximaAbertura}.",
+    "transbordo": "Vou encaminhar sua conversa para a recepção, que dará continuidade ao atendimento.",
+    "naoEntendi": "Não consegui compreender sua solicitação. Poderia reformular? Posso também encaminhar para a recepção.",
+    "despedida": "Agradecemos o contato. Estamos à disposição."
+  },
+  "transbordo": {
+    "pedidoHumano": ["atendente", "recepcao", "recepcionista", "falar com alguém", "dentista"],
+    "palavrasSensiveis": ["dor forte", "urgência", "emergência", "sangramento", "reclamação", "cancelar", "reembolso"],
+    "maxFalhas": 2,
+    "confiancaMinima": 0.45
+  },
+  "faq": [
+    {
+      "id": "convenios",
+      "pergunta": "Quais convênios odontológicos vocês aceitam?",
+      "resposta": "Atendemos os principais convênios odontológicos. Informe o nome do seu plano e a recepção confirma a cobertura.",
+      "palavras": ["convenio", "plano", "unimed", "odontoprev", "cobertura"]
+    },
+    {
+      "id": "limpeza",
+      "pergunta": "Como funciona a limpeza e quanto tempo dura?",
+      "resposta": "A limpeza dura cerca de 40 minutos e inclui remoção de tártaro e polimento. Recomendamos repetir a cada seis meses.",
+      "palavras": ["limpeza", "profilaxia", "tartaro", "polimento"]
+    },
+    {
+      "id": "clareamento",
+      "pergunta": "Vocês fazem clareamento dental?",
+      "resposta": "Fazemos clareamento de consultório e caseiro supervisionado. É necessária uma avaliação antes de escolher o método.",
+      "palavras": ["clareamento", "clarear", "dentes brancos", "manchas"]
+    },
+    {
+      "id": "primeira-consulta",
+      "pergunta": "O que levar na primeira consulta?",
+      "resposta": "Leve um documento com foto, a carteirinha do convênio, se houver, e exames de imagem anteriores. Chegue 10 minutos antes.",
+      "palavras": ["primeira consulta", "levar", "documento", "agendar", "marcar", "avaliacao"]
+    }
+  ],
+  "catalogo": [
+    { "id": "avaliacao", "nome": "Avaliação inicial", "preco": 0, "descricao": "Primeira consulta de avaliação, sem custo." },
+    { "id": "limpeza", "nome": "Limpeza com polimento", "preco": 180, "descricao": "Profilaxia completa, cerca de 40 minutos." },
+    { "id": "clareamento", "nome": "Clareamento de consultório", "preco": 890, "descricao": "Duas sessões com gel de alta concentração." }
+  ]
+}

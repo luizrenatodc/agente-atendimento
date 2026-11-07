@@ -1,0 +1,129 @@
+:root {
+  --verde: #075e54;
+  --verde-2: #128c7e;
+  --enviada: #d9fdd3;
+  --recebida: #ffffff;
+  --papel: #efe7dd;
+  --tinta: #111b21;
+  --suave: #667781;
+  --fundo: #0f1b20;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--tinta);
+  background: radial-gradient(1200px 600px at 20% 0%, #1d3a40 0%, var(--fundo) 60%);
+}
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+.palco {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 64px;
+  padding: 24px;
+}
+.legenda { max-width: 340px; color: #cfe3e0; }
+.legenda h1 { font-size: 34px; line-height: 1.1; margin: 8px 0 14px; color: #fff; letter-spacing: -0.02em; }
+.legenda p { margin: 0 0 14px; }
+.legenda a { color: #7fe3c4; }
+.legenda ul { padding-left: 18px; color: #9fbab6; }
+.legenda li { margin: 6px 0; }
+.legenda em { color: #e8f6f3; font-style: normal; background: #ffffff14; padding: 1px 6px; border-radius: 6px; }
+.selo { display: inline-block; margin: 0; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #7fe3c4; border: 1px solid #7fe3c455; padding: 3px 10px; border-radius: 99px; }
+
+.celular {
+  width: 390px;
+  height: 780px;
+  max-height: calc(100vh - 32px);
+  display: flex;
+  flex-direction: column;
+  background: var(--papel);
+  border: 11px solid #0a0a0a;
+  border-radius: 46px;
+  overflow: hidden;
+  box-shadow: 0 0 0 2px #3a3f42, 0 40px 80px #000a;
+  position: relative;
+}
+.status { display: flex; justify-content: space-between; align-items: center; padding: 8px 26px 6px; background: var(--verde); color: #fff; font-size: 12.5px; font-weight: 600; }
+.status-icones { display: flex; gap: 4px; }
+.status-icones i { width: 14px; height: 9px; background: #fff; border-radius: 2px; opacity: 0.9; }
+.status-icones i:nth-child(2) { width: 11px; }
+.status-icones i:nth-child(3) { width: 19px; border-radius: 3px; }
+
+.topo { display: flex; align-items: center; gap: 10px; background: var(--verde); color: #fff; padding: 6px 14px 10px 8px; }
+.voltar { font-size: 30px; line-height: 1; padding: 0 2px 4px; opacity: 0.9; }
+.avatar { display: inline-flex; border-radius: 50%; overflow: hidden; flex: none; }
+.quem { display: flex; flex-direction: column; min-width: 0; }
+.quem strong { font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.quem small { font-size: 12.5px; opacity: 0.85; min-height: 17px; }
+
+.conversa {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background-color: var(--papel);
+  background-image:
+    radial-gradient(circle at 20% 30%, #00000008 1.5px, transparent 2px),
+    radial-gradient(circle at 70% 70%, #00000008 1.5px, transparent 2px);
+  background-size: 34px 34px, 46px 46px;
+  scroll-behavior: smooth;
+}
+.dia { align-self: center; background: #fff; color: var(--suave); font-size: 12px; padding: 3px 12px; border-radius: 8px; box-shadow: 0 1px 1px #0001; margin-bottom: 6px; }
+
+.bolha {
+  max-width: 82%;
+  padding: 7px 10px 5px;
+  border-radius: 10px;
+  box-shadow: 0 1px 1px #0002;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  animation: entra 0.22s ease-out both;
+  position: relative;
+}
+.bolha.cliente { align-self: flex-end; background: var(--enviada); border-top-right-radius: 2px; }
+.bolha.agente, .bolha.humano { align-self: flex-start; background: var(--recebida); border-top-left-radius: 2px; }
+.bolha .autor { display: block; font-size: 12px; font-weight: 700; color: var(--verde-2); margin-bottom: 1px; }
+.bolha .hora { float: right; margin: 6px 0 0 12px; font-size: 11px; color: var(--suave); display: inline-flex; gap: 3px; align-items: center; }
+.bolha .hora .lida { color: #34b7f1; font-weight: 700; letter-spacing: -2px; }
+@keyframes entra { from { opacity: 0; transform: translateY(8px) scale(0.97); } to { opacity: 1; transform: none; } }
+
+.digitando { align-self: flex-start; background: #fff; border-radius: 10px; border-top-left-radius: 2px; padding: 11px 14px; box-shadow: 0 1px 1px #0002; display: flex; gap: 4px; animation: entra 0.2s ease-out both; }
+.digitando i { width: 7px; height: 7px; border-radius: 50%; background: #9aa6ad; animation: pulo 1.1s infinite ease-in-out; }
+.digitando i:nth-child(2) { animation-delay: 0.15s; }
+.digitando i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes pulo { 0%, 60%, 100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-4px); opacity: 1; } }
+
+.sistema { align-self: center; background: #fff3c4; color: #54470c; font-size: 12.5px; padding: 4px 12px; border-radius: 8px; text-align: center; margin: 4px 0; }
+
+.atalhos { display: flex; flex-wrap: wrap; gap: 6px; padding: 6px 10px 4px; background: var(--papel); }
+.atalhos button { flex: none; border: 1px solid #0b6b5e44; background: #ffffffcc; color: var(--verde); border-radius: 99px; padding: 4px 11px; font: inherit; font-size: 12.5px; cursor: pointer; transition: background 0.15s, transform 0.1s; }
+.atalhos button:hover { background: #fff; }
+.atalhos button:active { transform: scale(0.96); }
+
+.entrada { display: flex; gap: 8px; padding: 6px 10px 12px; background: var(--papel); }
+.entrada input { flex: 1; min-width: 0; border: 0; border-radius: 99px; padding: 11px 16px; font: inherit; background: #fff; box-shadow: 0 1px 1px #0002; }
+.entrada input:focus-visible { outline: 2px solid var(--verde-2); }
+.entrada button { width: 44px; height: 44px; flex: none; border: 0; border-radius: 50%; background: var(--verde-2); color: #fff; display: grid; place-items: center; cursor: pointer; transition: transform 0.1s, background 0.15s; }
+.entrada button:hover { background: var(--verde); }
+.entrada button:active { transform: scale(0.92); }
+.entrada button:focus-visible { outline: 2px solid var(--verde); outline-offset: 2px; }
+
+@media (max-width: 900px) {
+  .legenda { display: none; }
+}
+@media (max-width: 520px) {
+  .palco { padding: 0; }
+  .celular { width: 100%; height: 100dvh; max-height: none; border: 0; border-radius: 0; box-shadow: none; }
+  .status { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bolha, .digitando, .digitando i { animation: none; }
+  .conversa { scroll-behavior: auto; }
+}
