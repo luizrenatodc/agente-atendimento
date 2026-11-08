@@ -84,6 +84,13 @@ describe("API HTTP", () => {
     }
   });
 
+  it("caminho com escape inválido ou byte nulo vira 400, não 500", async () => {
+    for (const caminho of ["/%E0%A4%A", "/%", "/index.html%00"]) {
+      const r = await fetch(base + caminho);
+      assert.equal(r.status, 400, caminho);
+    }
+  });
+
   it("serve as páginas do cliente e do painel", async () => {
     assert.equal((await fetch(base + "/")).status, 200);
     assert.equal((await fetch(base + "/admin")).status, 200);
