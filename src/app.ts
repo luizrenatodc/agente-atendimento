@@ -123,8 +123,12 @@ export function criarApp(at: Atendimento, opc: OpcoesApp): Server {
 
   async function estatico(res: ServerResponse, caminho: string): Promise<void> {
     let rel = caminho === "/" ? "/index.html" : caminho === "/admin" ? "/admin.html" : caminho;
-    rel = normalize(decodeURIComponent(rel));
-    if (rel.includes("..")) return json(res, 400, { erro: "caminho inválido" });
+    try {
+      rel = normalize(decodeURIComponent(rel));
+    } catch {
+      return json(res, 400, { erro: "caminho inválido" });
+    }
+    if (rel.includes("..") || rel.includes("\0")) return json(res, 400, { erro: "caminho inválido" });
     try {
       const dados = await readFile(join(opc.pastaPublica, rel));
       res.writeHead(200, { "content-type": TIPOS[extname(rel)] ?? "application/octet-stream", "cache-control": "no-cache" });
