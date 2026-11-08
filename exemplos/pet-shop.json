@@ -1,0 +1,59 @@
+{
+  "empresa": {
+    "nome": "Pet Shop Rabo Feliz",
+    "segmento": "pet shop e banho e tosa",
+    "telefone": "(17) 3000-4567",
+    "endereco": "Rua das Acácias, 215"
+  },
+  "tom": { "estilo": "descontraido", "emoji": true, "assinatura": "Equipe Rabo Feliz" },
+  "horario": {
+    "fuso": "America/Sao_Paulo",
+    "semana": {
+      "dom": null,
+      "seg": ["09:00", "18:00"],
+      "ter": ["09:00", "18:00"],
+      "qua": ["09:00", "18:00"],
+      "qui": ["09:00", "18:00"],
+      "sex": ["09:00", "18:00"],
+      "sab": ["09:00", "13:00"]
+    }
+  },
+  "mensagens": {
+    "saudacao": "Oi, {nome}! Aqui é o atendimento virtual do {empresa}. Como posso ajudar você e seu pet?",
+    "foraDoHorario": "A loja está fechada agora, mas a gente volta {proximaAbertura}. Pode deixar sua mensagem!",
+    "transbordo": "Vou chamar alguém da equipe para continuar com você.",
+    "naoEntendi": "Não entendi muito bem. Pode explicar de outro jeito? Se preferir, chamo alguém da equipe.",
+    "despedida": "Qualquer coisa é só chamar. Um carinho no seu pet!"
+  },
+  "transbordo": {
+    "pedidoHumano": ["atendente", "humano", "falar com alguém", "veterinario"],
+    "palavrasSensiveis": ["envenenado", "engasgou", "acidente", "reclamacao", "cancelar", "reembolso"],
+    "maxFalhas": 2,
+    "confiancaMinima": 0.45
+  },
+  "faq": [
+    {
+      "id": "banho-tosa",
+      "pergunta": "Como funciona o banho e tosa?",
+      "resposta": "O banho leva cerca de 1 hora e a tosa higiênica ou completa é combinada na hora. Pets agitados podem levar um pouco mais.",
+      "palavras": ["banho", "tosa", "tosar", "higienica", "tempo"]
+    },
+    {
+      "id": "vacinas",
+      "pergunta": "Preciso da carteirinha de vacinas?",
+      "resposta": "Sim, para o banho e tosa pedimos a vacinação em dia. Traga a carteirinha na primeira visita.",
+      "palavras": ["vacina", "carteirinha", "vacinado", "vermifugo"]
+    },
+    {
+      "id": "entrega",
+      "pergunta": "Vocês entregam ração em casa?",
+      "resposta": "Entregamos ração e petiscos na cidade, sem taxa para compras acima de R$ 120.",
+      "palavras": ["entrega", "entregam", "racao", "delivery", "frete"]
+    }
+  ],
+  "catalogo": [
+    { "id": "banho-pequeno", "nome": "Banho (porte pequeno)", "preco": 45, "descricao": "Banho com secagem, até 10 kg." },
+    { "id": "banho-grande", "nome": "Banho (porte grande)", "preco": 90, "descricao": "Banho com secagem, acima de 20 kg." },
+    { "id": "tosa-higienica", "nome": "Tosa higiênica", "preco": 35, "descricao": "Patas, barriga e região íntima." }
+  ]
+}
