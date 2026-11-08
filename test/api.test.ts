@@ -4,7 +4,7 @@ import { after, before, describe, it } from "node:test";
 import type { AddressInfo } from "node:net";
 import type { Server } from "node:http";
 import { Atendimento } from "../src/agente.ts";
-import { criarApp } from "../src/app.ts";
+import { criarApp, tokenConfere } from "../src/app.ts";
 import { CONFIG_PADRAO } from "../src/config.ts";
 
 let servidor: Server;
@@ -68,6 +68,13 @@ describe("API HTTP", () => {
     assert.equal(t.corpo.responderia, true);
     assert.equal(t.corpo.candidatos[0].id, "endereco");
     assert.equal((await chamar("GET", "/api/admin/conversas", undefined, "segredo")).corpo.length, antes);
+  });
+
+  it("compara o token do painel sem aceitar prefixo, vazio ou tipo errado", async () => {
+    assert.equal(tokenConfere("segredo", "segredo"), true);
+    for (const ruim of ["segred", "segredo2", "", undefined, ["segredo"]]) assert.equal(tokenConfere("segredo", ruim), false);
+    assert.equal((await chamar("GET", "/api/admin/metricas", undefined, "segred")).status, 401);
+    assert.equal((await chamar("GET", "/api/admin/metricas", undefined, "segredo")).status, 200);
   });
 
   it("responde 404 e 400 com mensagem clara", async () => {
