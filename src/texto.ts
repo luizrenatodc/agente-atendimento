@@ -7,7 +7,7 @@ const PARADAS = new Set(
   ).split(" "),
 );
 
-const SUFIXOS = ["mente", "coes", "cao", "oes", "aes", "ar", "er", "ir", "am", "em", "es", "as", "os", "a", "e", "o", "s"];
+const SUFIXOS = ["mente", "coes", "cao", "oes", "aes", "ao", "ar", "er", "ir", "am", "em", "es", "as", "os", "a", "e", "o", "s"];
 
 export function normalizar(s: string): string {
   return s
