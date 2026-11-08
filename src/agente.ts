@@ -39,7 +39,13 @@ export class Atendimento {
     this.arquivoEstado = opc.arquivoEstado;
     this.relogio = opc.relogio ?? (() => new Date());
     if (this.arquivoEstado && existsSync(this.arquivoEstado)) {
-      const dados = JSON.parse(readFileSync(this.arquivoEstado, "utf-8")) as { conversas: Conversa[] };
+      let dados: { conversas?: Conversa[] };
+      try {
+        dados = JSON.parse(readFileSync(this.arquivoEstado, "utf-8"));
+      } catch (e) {
+        throw new Error(`não foi possível ler o estado em ${this.arquivoEstado} (${(e as Error).message}). Corrija ou mova o arquivo para começar do zero.`);
+      }
+      if (!dados || !Array.isArray(dados.conversas)) throw new Error(`estado em ${this.arquivoEstado} sem a lista "conversas". Corrija ou mova o arquivo.`);
       for (const c of dados.conversas) this.conversas.set(c.id, c);
     }
   }

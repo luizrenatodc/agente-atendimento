@@ -144,7 +144,19 @@ export function validarConfig(entrada: unknown): Config {
 }
 
 export function carregarConfig(arquivo?: string): Config {
-  if (arquivo && existsSync(arquivo)) return validarConfig(JSON.parse(readFileSync(arquivo, "utf-8")));
+  if (arquivo && existsSync(arquivo)) {
+    let bruto: unknown;
+    try {
+      bruto = JSON.parse(readFileSync(arquivo, "utf-8"));
+    } catch (e) {
+      throw new Error(`JSON inválido em ${arquivo}: ${(e as Error).message}`);
+    }
+    try {
+      return validarConfig(bruto);
+    } catch (e) {
+      throw new Error(`configuração em ${arquivo}: ${(e as Error).message}`);
+    }
+  }
   return structuredClone(CONFIG_PADRAO);
 }
 
