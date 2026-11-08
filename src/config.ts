@@ -89,6 +89,18 @@ export const CONFIG_PADRAO: Config = {
   ],
 };
 
+const HORA = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+function fusoValido(fuso: unknown): boolean {
+  if (typeof fuso !== "string" || !fuso) return false;
+  try {
+    new Intl.DateTimeFormat("pt-BR", { timeZone: fuso });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /** Valida e completa uma configuração vinda de arquivo ou do painel. Lança Error se estiver quebrada. */
 export function validarConfig(entrada: unknown): Config {
   if (!entrada || typeof entrada !== "object") throw new Error("configuração inválida");
@@ -101,17 +113,22 @@ export function validarConfig(entrada: unknown): Config {
   const semana = { ...base.horario.semana, ...(c.horario?.semana ?? {}) };
   for (const d of DIAS) {
     const f = semana[d];
-    if (f && !(Array.isArray(f) && /^\d{2}:\d{2}$/.test(f[0]) && /^\d{2}:\d{2}$/.test(f[1]) && f[0] < f[1]))
+    if (f && !(Array.isArray(f) && HORA.test(f[0]) && HORA.test(f[1]) && f[0] < f[1]))
       throw new Error(`horário inválido em ${d}`);
   }
+  if (c.horario?.fuso !== undefined && !fusoValido(c.horario.fuso)) throw new Error(`fuso horário inválido: ${String(c.horario.fuso)}`);
+  if (c.faq !== undefined && !Array.isArray(c.faq)) throw new Error("faq deve ser uma lista");
+  if (c.catalogo !== undefined && !Array.isArray(c.catalogo)) throw new Error("catalogo deve ser uma lista");
   const t = { ...base.transbordo, ...(c.transbordo ?? {}) };
   if (!(t.confiancaMinima >= 0 && t.confiancaMinima <= 1)) throw new Error("transbordo.confiancaMinima deve ficar entre 0 e 1");
   if (!(t.maxFalhas >= 1)) throw new Error("transbordo.maxFalhas deve ser 1 ou mais");
   const faq = (c.faq ?? base.faq).map((f, i) => {
+    if (!f || typeof f !== "object") throw new Error(`FAQ ${i + 1} inválida`);
     if (!f.pergunta?.trim() || !f.resposta?.trim()) throw new Error(`FAQ ${i + 1} precisa de pergunta e resposta`);
     return { id: f.id || `faq-${i + 1}`, pergunta: f.pergunta.trim(), resposta: f.resposta.trim(), palavras: (f.palavras ?? []).map((p) => String(p).trim()).filter(Boolean) };
   });
   const catalogo = (c.catalogo ?? base.catalogo).map((p, i) => {
+    if (!p || typeof p !== "object") throw new Error(`item ${i + 1} do catálogo inválido`);
     if (!p.nome?.trim() || !(Number(p.preco) >= 0)) throw new Error(`item ${i + 1} do catálogo precisa de nome e preço`);
     return { id: p.id || `item-${i + 1}`, nome: p.nome.trim(), preco: Number(p.preco), descricao: (p.descricao ?? "").trim() };
   });
