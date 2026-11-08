@@ -76,6 +76,14 @@ describe("API HTTP", () => {
     assert.equal((await chamar("POST", `/api/conversas/${c.corpo.id}/mensagens`, { texto: "" })).status, 400);
   });
 
+  it("corpo que não é um objeto JSON vira 400, não 500", async () => {
+    for (const corpo of ["null", "[1,2]", "42", '"texto"', "{quebrado"]) {
+      const r = await fetch(base + "/api/conversas", { method: "POST", headers: { "content-type": "application/json" }, body: corpo });
+      assert.equal(r.status, 400, `corpo ${corpo}`);
+      assert.ok(((await r.json()) as { erro: string }).erro);
+    }
+  });
+
   it("serve as páginas do cliente e do painel", async () => {
     assert.equal((await fetch(base + "/")).status, 200);
     assert.equal((await fetch(base + "/admin")).status, 200);
