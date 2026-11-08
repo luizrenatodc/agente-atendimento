@@ -36,11 +36,14 @@ async function lerCorpo(req: IncomingMessage): Promise<Record<string, unknown>> 
     partes.push(p as Buffer);
   }
   if (!partes.length) return {};
+  let dados: unknown;
   try {
-    return JSON.parse(Buffer.concat(partes).toString("utf-8"));
+    dados = JSON.parse(Buffer.concat(partes).toString("utf-8"));
   } catch {
     throw new ErroNegocio("JSON inválido");
   }
+  if (dados === null || typeof dados !== "object" || Array.isArray(dados)) throw new ErroNegocio("o corpo precisa ser um objeto JSON");
+  return dados as Record<string, unknown>;
 }
 
 /** Visão da conversa para o cliente: sem notas internas, sem dados do motor. */
