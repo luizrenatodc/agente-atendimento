@@ -1,6 +1,7 @@
 import { createServer } from "node:http";
 import type { IncomingMessage, Server, ServerResponse } from "node:http";
 import { readFile } from "node:fs/promises";
+import { createHash, timingSafeEqual } from "node:crypto";
 import { extname, join, normalize } from "node:path";
 import { ErroNegocio } from "./agente.ts";
 import type { Atendimento } from "./agente.ts";
@@ -29,6 +30,13 @@ export const CABECALHOS_SEGURANCA = {
   "referrer-policy": "no-referrer",
   "content-security-policy": "default-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'",
 };
+
+/** Compara tokens em tempo constante (via hash, para aceitar tamanhos diferentes). */
+export function tokenConfere(esperado: string, recebido: unknown): boolean {
+  if (typeof recebido !== "string") return false;
+  const h = (t: string) => createHash("sha256").update(t).digest();
+  return timingSafeEqual(h(esperado), h(recebido));
+}
 
 function json(res: ServerResponse, status: number, corpo: unknown): void {
   res.writeHead(status, { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...CABECALHOS_SEGURANCA });
@@ -88,7 +96,7 @@ export function criarApp(at: Atendimento, opc: OpcoesApp): Server {
 
     // --- rotas da equipe ---
     if (partes[1] === "admin") {
-      if (opc.tokenAdmin && req.headers["x-token"] !== opc.tokenAdmin) return json(res, 401, { erro: "token inválido" });
+      if (opc.tokenAdmin && !tokenConfere(opc.tokenAdmin, req.headers["x-token"])) return json(res, 401, { erro: "token inválido" });
       const [, , recurso, id, acao] = partes;
       if (recurso === "conversas") {
         if (metodo === "GET" && !id) {
