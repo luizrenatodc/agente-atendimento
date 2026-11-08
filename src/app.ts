@@ -22,8 +22,16 @@ export interface OpcoesApp {
   tokenAdmin?: string;
 }
 
+/** Cabeçalhos em todas as respostas. Não há script nem estilo inline nas páginas, então a CSP pode ser estrita. */
+export const CABECALHOS_SEGURANCA = {
+  "x-content-type-options": "nosniff",
+  "x-frame-options": "DENY",
+  "referrer-policy": "no-referrer",
+  "content-security-policy": "default-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'",
+};
+
 function json(res: ServerResponse, status: number, corpo: unknown): void {
-  res.writeHead(status, { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" });
+  res.writeHead(status, { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...CABECALHOS_SEGURANCA });
   res.end(JSON.stringify(corpo));
 }
 
@@ -131,7 +139,7 @@ export function criarApp(at: Atendimento, opc: OpcoesApp): Server {
     if (rel.includes("..") || rel.includes("\0")) return json(res, 400, { erro: "caminho inválido" });
     try {
       const dados = await readFile(join(opc.pastaPublica, rel));
-      res.writeHead(200, { "content-type": TIPOS[extname(rel)] ?? "application/octet-stream", "cache-control": "no-cache" });
+      res.writeHead(200, { "content-type": TIPOS[extname(rel)] ?? "application/octet-stream", "cache-control": "no-cache", ...CABECALHOS_SEGURANCA });
       res.end(dados);
     } catch {
       json(res, 404, { erro: "não encontrado" });

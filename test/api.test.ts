@@ -91,6 +91,15 @@ describe("API HTTP", () => {
     }
   });
 
+  it("envia cabeçalhos de segurança em páginas, API e erros", async () => {
+    for (const caminho of ["/", "/admin", "/api/saude", "/api/nao-existe", "/nao-existe.html"]) {
+      const r = await fetch(base + caminho);
+      assert.equal(r.headers.get("x-content-type-options"), "nosniff", caminho);
+      assert.equal(r.headers.get("x-frame-options"), "DENY", caminho);
+      assert.match(r.headers.get("content-security-policy") ?? "", /frame-ancestors 'none'/, caminho);
+    }
+  });
+
   it("serve as páginas do cliente e do painel", async () => {
     assert.equal((await fetch(base + "/")).status, 200);
     assert.equal((await fetch(base + "/admin")).status, 200);
